@@ -2,6 +2,9 @@ services:
   rclone-drive:
     image: my-rclone-mount
     container_name: rclone-drive
+    environment:
+      - REMOTE_NAME=${RCLONE_REMOTE_NAME}
+      - FOLDER_ID=${GOOGLE_DRIVE_FOLDER_ID}
     restart: unless-stopped
     devices:
       - /dev/fuse:/dev/fuse
