@@ -39,7 +39,7 @@ Check the rclone mount folder on the VM to ensure the cloud sync has successfull
 For security, the Syncthing Web UI port is not opened to the public. Access it via **SSH Tunneling**:
 
 1. Run this command from your local machine:
-   **ssh -L 9000:localhost:8384 user@your-vm-ip**
+   `ssh -i /path/to/your/private_key -L 9000:localhost:8384 user@your-vm-ip`
 2. Open your web browser and navigate to: **http://localhost:9000**
 
 ---
@@ -62,7 +62,7 @@ For security, the Syncthing Web UI port is not opened to the public. Access it v
 ### How to connect to Syncthing GUI
 1. Ensure the Docker container is running on the VM.
 2. Open a terminal on your **local computer**.
-3. Execute: **ssh -L 9000:127.0.0.1:8384 [user]@[vm-ip]**
+3. Execute: `ssh -i /path/to/your/private_key -L 9000:localhost:8384 user@your-vm-ip`
 4. Keep that terminal open.
 5. Open a browser and type **http://localhost:9000**.
 6. Set a GUI password immediately upon first login for added security.
@@ -83,4 +83,5 @@ docker rm -f rclone-drive syncthing
 sudo umount -l $DATA_PATH/<<Foldername>>
 rm -rf $DATA_PATH
 mkdir -p $DATA_PATH
+
 
