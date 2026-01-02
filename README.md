@@ -20,7 +20,13 @@ Quickly setup a VM to sync files from cloud storage (Google Drive) to all device
 * **Rclone Cache:** Copy your local `rclone/cache` folder (containing your `rclone.conf`) to the VM project directory.
 You can do it via `scp -i /path/to/private_key.pem -r /local/folder/ user@remote_host:/remote/path/`
 * **Environment Variables:** Fill the `.env` file with your specific data variable values 
-
+* Create a folder `$DATA_PATH/sync_service`. (This is the folder, inside which cloud sync will happen)
+```bash
+# Load variables into your current shell
+export $(grep -v '^#' .env | xargs)
+#create the folder
+mkdir -p $DATA_PATH/sync_service
+```
 ### 3. Build & Launch
 Build the Docker Image
 `docker build -t my-rclone-mount .`
@@ -77,3 +83,4 @@ docker rm -f rclone-drive syncthing
 sudo umount -l $DATA_PATH/<<Foldername>>
 rm -rf $DATA_PATH
 mkdir -p $DATA_PATH
+
