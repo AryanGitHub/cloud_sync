@@ -1,0 +1,34 @@
+services:
+  rclone-drive:
+    image: my-rclone-mount
+    container_name: rclone-drive
+    restart: unless-stopped
+    devices:
+      - /dev/fuse:/dev/fuse
+    cap_add:
+      - SYS_ADMIN
+    security_opt:
+      - label:disable
+    volumes:
+      - ${RCLONE_CACHE_PATH}:/config/rclone:Z
+      - ${DATA_PATH}:/data:shared,Z
+      
+  syncthing:
+    image: syncthing/syncthing
+    container_name: syncthing
+    environment:
+      - PUID=1000
+      - PGID=1000
+      - STGUIADDRESS=0.0.0.0:8384  
+    volumes:
+      - ${DATA_PATH}:/var/syncthing:shared,Z
+    ports:
+      - 127.0.0.1:8384:8384   # Bind port 8384 ONLY to the VM's local interface
+      - 22000:22000/tcp       # Data sync (Still needs to be public)
+      - 22000:22000/udp       # Data sync (Still needs to be public)
+    restart: unless-stopped
+    healthcheck:
+      test: curl -fkLsS -m 2 127.0.0.1:8384/rest/noauth/health | grep -o --color=never OK || exit 1
+      interval: 1m
+      timeout: 10s
+      retries: 3
