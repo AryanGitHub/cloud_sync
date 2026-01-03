@@ -35,12 +35,20 @@ Run the following command to start the services:
 
 Check the rclone mount folder on the VM to ensure the cloud sync has successfully initialized.
 
-### 4. Connect to Syncthing GUI
+### 4. Connect and Configure Syncthing
 For security, the Syncthing Web UI port is not opened to the public. Access it via **SSH Tunneling**:
 
 1. Run this command from your local machine:
    `ssh -i /path/to/your/private_key -L 9000:localhost:8384 user@your-vm-ip`
 2. Open your web browser and navigate to: **http://localhost:9000**
+3. **Setup Password:** Go to **Actions > Settings > GUI** and set a strong username and password.
+4. **Network Optimization:** In **Actions > Settings > Connections**, uncheck/disable:
+    * Enable NAT traversal
+    * Local Discovery
+    * Global Discovery
+    * Enable Relaying
+5. **Static IP Usage:** To ensure devices connect without Discovery services, manually add the VM's address on your mobile/client app under the Device settings:
+    * Set the addresses field to: `tcp://[ipAddress]:22000`
 
 ---
 
